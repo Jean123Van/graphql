@@ -37,4 +37,16 @@ export class UserRepository extends Repository<UserEntity> {
             throw new BadRequestException('user doesn\'t exist')
         }
     }
+
+    userValidation(user:UserEntity){
+        if(!user){
+            throw new BadRequestException('Invalid username or password')
+        }
+    }
+
+    passwordValidation(valid:boolean){
+        if(!valid){
+            throw new BadRequestException('Invalid username or password')
+        }
+    }
 }

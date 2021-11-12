@@ -8,6 +8,7 @@ import { UsersModule } from './users/users.module';
 import { FriendsModule } from './friends/friends.module';
 import { PostsModule } from './posts/posts.module';
 import { CommentsModule } from './comments/comments.module';
+import { LoginModule } from './login/login.module';
 
 @Module({
   imports: [
@@ -30,13 +31,18 @@ import { CommentsModule } from './comments/comments.module';
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      installSubscriptionHandlers: true,
+      context: ({req}) => ({headers: req.headers}),
+
     }),
     UserModule,
     UsersModule,
     FriendsModule,
     PostsModule,
-    CommentsModule],
+    CommentsModule,
+    LoginModule],
   controllers: [],
   providers: [],
 })
 export class AppModule {}
+

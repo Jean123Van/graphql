@@ -54,11 +54,12 @@ type CommentsOutput {
 type Query {
   getOne(userId: String!): RegisterOutput!
   getList(filter: Filter!): [RegisterOutput!]!
-  viewFriend(friendId: String!, userId: String!): RegisterOutput!
-  listFriends(userId: String!): RegisterOutput!
-  getPost(userId: String!, postId: String!): PostOutput!
-  getAllComments(userId: String!, postId: String!): PostOutput!
-  getComment(commentId: String!, userId: String!, postId: String!): CommentsOutput!
+  viewFriend(friendId: String!): RegisterOutput!
+  listFriends: RegisterOutput!
+  getPost(postId: String!): PostOutput!
+  getAllComments(postId: String!): PostOutput!
+  getComment(commentId: String!, postId: String!): CommentsOutput!
+  login(loginCred: LoginCred!): String!
 }
 
 input Filter {
@@ -67,14 +68,19 @@ input Filter {
   limit: Float
 }
 
+input LoginCred {
+  username: String!
+  password: String!
+}
+
 type Mutation {
   register(input: RegisterInput!): RegisterOutput!
-  addFriend(friendId: String!, userId: String!): FriendAdded!
-  deleteFriend(friendId: String!, userId: String!): FriendDeleted!
-  createPost(userId: String!, postCreate: PostCreate!): PostOutput!
-  deletePost(userId: String!, postId: String!): PostOutput!
-  createComment(comment: String!, userId: String!, postId: String!): CommentsOutput!
-  deleteComment(commentId: String!, userId: String!, postId: String!): CommentsOutput!
+  addFriend(friendId: String!): FriendAdded!
+  deleteFriend(friendId: String!): FriendDeleted!
+  createPost(postCreate: PostCreate!): PostOutput!
+  deletePost(postId: String!): PostOutput!
+  createComment(comment: String!, postId: String!): CommentsOutput!
+  deleteComment(commentId: String!, postId: String!): CommentsOutput!
 }
 
 input RegisterInput {
@@ -88,4 +94,8 @@ input RegisterInput {
 input PostCreate {
   title: String!
   description: String!
+}
+
+type Subscription {
+  postAdded: PostOutput!
 }
