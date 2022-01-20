@@ -98,4 +98,5 @@ input PostCreate {
 
 type Subscription {
   postAdded: PostOutput!
+  commentAdded: CommentsOutput!
 }

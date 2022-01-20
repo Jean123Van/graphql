@@ -19,7 +19,7 @@ export class PostsResolver {
     @UseGuards(GqlAuthGuard)
     async createPost(@Args('postCreate') postCreate: PostCreate, @CurrentUser('user') user: UserEntity){
         const post = await this.postsService.createPost(postCreate, user.id)
-        this.pubSub.publish('postCreated', {postCreated:post})
+        this.pubSub.publish('postCreated', {postAdded:post})
         return post 
     }
 
@@ -36,7 +36,7 @@ export class PostsResolver {
     }
 
     @Subscription(() => PostOutput)
-     async postAdded(){
-        return await (await this.pubSub.asyncIterator('postCreated').next()).value.postCreated
+     postAdded(){
+        return this.pubSub.asyncIterator(['postCreated'])
     }
 }
